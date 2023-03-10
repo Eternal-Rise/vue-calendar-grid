@@ -1,0 +1,12 @@
+{
+  "name": "vue-calendar-grid",
+  "version": "0.0.1",
+  "description": "Simple calendar grid composable for Vue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["Vue", "Calendar", "Composable"],
+  "author": "Bohdan Saliuk <407_2017@ukr.net>",
+  "license": "MIT"
+}
