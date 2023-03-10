@@ -6,7 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["Vue", "Calendar", "Composable"],
+  "keywords": [
+    "Vue",
+    "Calendar",
+    "Composable"
+  ],
   "author": "Bohdan Saliuk <407_2017@ukr.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3"
+  }
 }
