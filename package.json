@@ -1,5 +1,5 @@
 {
-  "name": "vue-calendar-grid",
+  "name": "@eternal_rise/vue-calendar-grid",
   "version": "0.0.1",
   "description": "Simple calendar grid composable for Vue",
   "main": "index.js",
@@ -18,5 +18,13 @@
     "@commitlint/config-conventional": "^17.4.4",
     "husky": "^8.0.3",
     "semantic-release": "^20.1.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eternal-Rise/vue-calendar-grid"
+  },
+  "bugs": {
+    "url": "https://github.com/Eternal-Rise/vue-calendar-grid/issues"
+  },
+  "homepage": "https://github.com/Eternal-Rise/vue-calendar-grid"
 }
