@@ -26,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/Eternal-Rise/vue-calendar-grid/issues"
   },
-  "homepage": "https://github.com/Eternal-Rise/vue-calendar-grid"
+  "homepage": "https://github.com/Eternal-Rise/vue-calendar-grid",
+  "dependencies": {
+    "dayjs": "^1.11.7",
+    "vue": "^3.2.47"
+  }
 }
