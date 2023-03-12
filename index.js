@@ -13,8 +13,8 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 
 const getWeekGrid = (date) => {
-  const startDate = dayjs(date).startOf('isoWeek');
-  const week = startDate.isoWeek();
+  const startDate = dayjs(date).startOf('week');
+  const week = startDate.week();
   const days = [];
 
   for (let i = 0; i < 7; i++) {
@@ -30,9 +30,29 @@ const getWeekGrid = (date) => {
 
 export const useCalendarGrid = (defaultValues = {}) => {
   const date = ref(defaultValues.date ?? new Date());
+  const weekStart = ref(defaultValues.weekStart ?? 1);
+
+  dayjs.prototype.$locale = () => {
+    const localeObject = dayjs.Ls[dayjs.locale()];
+
+    return {
+      ...localeObject,
+      weekStart: weekStart.value,
+    };
+  };
 
   const weekdays = computed(() => {
-    return dayjs.weekdays();
+    const daysNames = dayjs.weekdays();
+    const days = [];
+
+    let day = weekStart.value;
+    for (let i = 0; i < 7; i += 1) {
+      days.push(daysNames[day]);
+      day += 1;
+      if (day > 6) day = 0;
+    }
+
+    return days;
   });
 
   const weekGrid = computed(() => getWeekGrid(date.value));
