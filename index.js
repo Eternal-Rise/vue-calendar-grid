@@ -12,10 +12,9 @@ dayjs.extend(isoWeeksInYear);
 dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 
-const getWeekGrid = (d) => {
-  const date = dayjs(d);
-  const startDate = date.startOf('week');
-  const week = date.isoWeek();
+const getWeekGrid = (date) => {
+  const startDate = dayjs(date).startOf('isoWeek');
+  const week = startDate.isoWeek();
   const days = [];
 
   for (let i = 0; i < 7; i++) {
