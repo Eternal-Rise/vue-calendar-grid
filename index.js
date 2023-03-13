@@ -5,12 +5,14 @@ import isoWeek from 'dayjs/esm/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/esm/plugin/isoWeeksInYear';
 import localeData from 'dayjs/esm/plugin/localeData';
 import weekOfYear from 'dayjs/esm/plugin/weekOfYear';
+import updateLocale from 'dayjs/esm/plugin/updateLocale';
 
 dayjs.extend(isLeapYear);
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeeksInYear);
 dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
+dayjs.extend(updateLocale);
 
 const getWeekGrid = (date) => {
   const startDate = dayjs(date).startOf('week');
@@ -30,16 +32,7 @@ const getWeekGrid = (date) => {
 
 export const useCalendarGrid = (defaultValues = {}) => {
   const date = ref(defaultValues.date ?? new Date());
-  const weekStart = ref(defaultValues.weekStart ?? 1);
-
-  dayjs.prototype.$locale = () => {
-    const localeObject = dayjs.Ls[dayjs.locale()];
-
-    return {
-      ...localeObject,
-      weekStart: weekStart.value,
-    };
-  };
+  const weekStart = ref(1);
 
   const weekdays = computed(() => {
     const daysNames = dayjs.weekdays();
@@ -55,16 +48,24 @@ export const useCalendarGrid = (defaultValues = {}) => {
     return days;
   });
 
-  const weekGrid = computed(() => getWeekGrid(date.value));
+  /**
+   * use `weekStart` inside `computed` to mimic `watch` behavior,
+   * but compute grid lazily
+   */
+  const weekGrid = computed(() => (weekStart.value, getWeekGrid(date.value)));
 
   const setWeekStart = (n) => {
     weekStart.value = n > 6 ? 6 : n < 0 ? 0 : n;
+    dayjs.updateLocale(dayjs.locale(), { weekStart: weekStart.value });
   };
+
+
+  setWeekStart(defaultValues.weekStart ?? 1);
 
   return {
     date,
     weekdays,
     weekGrid,
-    setWeekStart
+    setWeekStart,
   };
 };
