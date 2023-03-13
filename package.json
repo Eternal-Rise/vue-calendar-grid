@@ -20,7 +20,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest run",
-    "test:w": "vitest"
+    "test:dev": "vitest dev"
   },
   "dependencies": {
     "dayjs": "^1.11.7",
