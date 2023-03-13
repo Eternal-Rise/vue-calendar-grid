@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { useCalendarGrid } from './index.js';
 
+const testWeekGrid = (weekGrid, week, dates) => {
+  const weekDates = weekGrid.value.days.map((day) => day.date);
+  expect(weekGrid.value.week).toBe(week);
+  expect(weekDates).toEqual(dates);
+};
+
 describe('useCalendarGrid', () => {
   describe('weekGrid', () => {
     it.each([
@@ -79,10 +85,47 @@ describe('useCalendarGrid', () => {
       'returns proper grid for %s where week starts on %i',
       (date, weekStart, week, dates) => {
         const { weekGrid } = useCalendarGrid({ date, weekStart });
-        const weekDates = weekGrid.value.days.map((day) => day.date);
-        expect(weekGrid.value.week).toBe(week);
-        expect(weekDates).toEqual(dates);
+        testWeekGrid(weekGrid, week, dates);
       },
     );
+  });
+
+  describe('setWeekStart', () => {
+    const dayNum = {
+      Sunday: 0,
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+    };
+
+    const daysToNumbers = (days) => days.map((day) => dayNum[day]);
+
+    it.each([
+      [0, [0, 1, 2, 3, 4, 5, 6]],
+      [1, [1, 2, 3, 4, 5, 6, 0]],
+      [2, [2, 3, 4, 5, 6, 0, 1]],
+      [3, [3, 4, 5, 6, 0, 1, 2]],
+      [4, [4, 5, 6, 0, 1, 2, 3]],
+      [5, [5, 6, 0, 1, 2, 3, 4]],
+      [6, [6, 0, 1, 2, 3, 4, 5]],
+    ])('allows to change week start', (weekStart, daysOrder) => {
+      const { weekdays, setWeekStart } = useCalendarGrid();
+
+      setWeekStart(weekStart);
+      expect(daysToNumbers(weekdays.value)).toEqual(daysOrder);
+    });
+
+    it('prevents to set invalid day number', () => {
+      const {weekdays, setWeekStart} = useCalendarGrid()
+
+      setWeekStart(-1);
+      expect(daysToNumbers(weekdays.value)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+
+      setWeekStart(10)
+      expect(daysToNumbers(weekdays.value)).toEqual([6, 0, 1, 2, 3, 4, 5])
+    })
   });
 });

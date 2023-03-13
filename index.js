@@ -57,9 +57,14 @@ export const useCalendarGrid = (defaultValues = {}) => {
 
   const weekGrid = computed(() => getWeekGrid(date.value));
 
+  const setWeekStart = (n) => {
+    weekStart.value = n > 6 ? 6 : n < 0 ? 0 : n;
+  };
+
   return {
     date,
     weekdays,
     weekGrid,
+    setWeekStart
   };
 };
