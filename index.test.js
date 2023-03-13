@@ -119,13 +119,13 @@ describe('useCalendarGrid', () => {
     });
 
     it('prevents to set invalid day number', () => {
-      const {weekdays, setWeekStart} = useCalendarGrid()
+      const { weekdays, setWeekStart } = useCalendarGrid();
 
       setWeekStart(-1);
       expect(daysToNumbers(weekdays.value)).toEqual([0, 1, 2, 3, 4, 5, 6]);
 
-      setWeekStart(10)
-      expect(daysToNumbers(weekdays.value)).toEqual([6, 0, 1, 2, 3, 4, 5])
-    })
+      setWeekStart(10);
+      expect(daysToNumbers(weekdays.value)).toEqual([6, 0, 1, 2, 3, 4, 5]);
+    });
   });
 });
