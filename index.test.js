@@ -127,5 +127,17 @@ describe('useCalendarGrid', () => {
       setWeekStart(10);
       expect(daysToNumbers(weekdays.value)).toEqual([6, 0, 1, 2, 3, 4, 5]);
     });
+
+    it('updates `weekGrid` on change weekStart', async () => {
+      const { weekGrid, setWeekStart } = useCalendarGrid({
+        date: '2020-01-01',
+      });
+
+      setWeekStart(0);
+      testWeekGrid(weekGrid, 1, [29, 30, 31, 1, 2, 3, 4]);
+
+      setWeekStart(1);
+      testWeekGrid(weekGrid, 1, [30, 31, 1, 2, 3, 4, 5]);
+    });
   });
 });
