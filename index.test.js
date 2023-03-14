@@ -2,9 +2,16 @@ import { describe, it, expect } from 'vitest';
 import { useCalendarGrid } from './index.js';
 
 const testWeekGrid = (weekGrid, week, dates) => {
-  const weekDates = weekGrid.value.days.map((day) => day.date);
-  expect(weekGrid.value.week).toBe(week);
+  const weekDates = weekGrid.days.map((day) => day.date);
+  expect(weekGrid.week).toBe(week);
   expect(weekDates).toEqual(dates);
+};
+
+const testMonthGrid = (monthGrid, expected) => {
+  monthGrid.forEach((weekGrid, i) => {
+    const { week, days } = expected[i];
+    testWeekGrid(weekGrid, week, days);
+  });
 };
 
 describe('useCalendarGrid', () => {
@@ -85,9 +92,39 @@ describe('useCalendarGrid', () => {
       'returns proper grid for %s where week starts on %i',
       (date, weekStart, week, dates) => {
         const { weekGrid } = useCalendarGrid({ date, weekStart });
-        testWeekGrid(weekGrid, week, dates);
+        testWeekGrid(weekGrid.value, week, dates);
       },
     );
+  });
+
+  describe('monthGrid', () => {
+    it.each([
+      [
+        '2020-01-01',
+        [
+          { week: 1, days: [30, 31, 1, 2, 3, 4, 5] },
+          { week: 2, days: [6, 7, 8, 9, 10, 11, 12] },
+          { week: 3, days: [13, 14, 15, 16, 17, 18, 19] },
+          { week: 4, days: [20, 21, 22, 23, 24, 25, 26] },
+          { week: 5, days: [27, 28, 29, 30, 31, 1, 2] },
+          { week: 6, days: [3, 4, 5, 6, 7, 8, 9] },
+        ],
+      ],
+      [
+        '2020-12-31',
+        [
+          { week: 49, days: [30, 1, 2, 3, 4, 5, 6] },
+          { week: 50, days: [7, 8, 9, 10, 11, 12, 13] },
+          { week: 51, days: [14, 15, 16, 17, 18, 19, 20] },
+          { week: 52, days: [21, 22, 23, 24, 25, 26, 27] },
+          { week: 1, days: [28, 29, 30, 31, 1, 2, 3] },
+          { week: 2, days: [4, 5, 6, 7, 8, 9, 10] },
+        ],
+      ],
+    ])('returns proper grid for %s', (date, grid) => {
+      const { monthGrid } = useCalendarGrid({ date });
+      testMonthGrid(monthGrid.value, grid);
+    });
   });
 
   describe('setWeekStart', () => {
@@ -134,10 +171,10 @@ describe('useCalendarGrid', () => {
       });
 
       setWeekStart(0);
-      testWeekGrid(weekGrid, 1, [29, 30, 31, 1, 2, 3, 4]);
+      testWeekGrid(weekGrid.value, 1, [29, 30, 31, 1, 2, 3, 4]);
 
       setWeekStart(1);
-      testWeekGrid(weekGrid, 1, [30, 31, 1, 2, 3, 4, 5]);
+      testWeekGrid(weekGrid.value, 1, [30, 31, 1, 2, 3, 4, 5]);
     });
   });
 });

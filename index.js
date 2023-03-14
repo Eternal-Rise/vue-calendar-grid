@@ -30,6 +30,17 @@ const getWeekGrid = (date) => {
   return { week, days };
 };
 
+const getMonthGrid = (date) => {
+  date = dayjs(date).startOf('month');
+  const grid = [];
+
+  for (let i = 0; i < 6; i++) {
+    grid.push(getWeekGrid(date.add(i, 'week')));
+  }
+
+  return grid;
+};
+
 export const useCalendarGrid = (defaultValues = {}) => {
   const date = ref(defaultValues.date ?? new Date());
   const weekStart = ref(1);
@@ -48,24 +59,28 @@ export const useCalendarGrid = (defaultValues = {}) => {
     return days;
   });
 
+  const months = computed(() => dayjs.months());
+
   /**
    * use `weekStart` inside `computed` to mimic `watch` behavior,
    * but compute grid lazily
    */
   const weekGrid = computed(() => (weekStart.value, getWeekGrid(date.value)));
+  const monthGrid = computed(() => (weekStart.value, getMonthGrid(date.value)));
 
   const setWeekStart = (n) => {
     weekStart.value = n > 6 ? 6 : n < 0 ? 0 : n;
     dayjs.updateLocale(dayjs.locale(), { weekStart: weekStart.value });
   };
 
-
   setWeekStart(defaultValues.weekStart ?? 1);
 
   return {
     date,
     weekdays,
+    months,
     weekGrid,
+    monthGrid,
     setWeekStart,
   };
 };
