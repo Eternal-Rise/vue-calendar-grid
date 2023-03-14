@@ -127,6 +127,36 @@ describe('useCalendarGrid', () => {
     });
   });
 
+  describe('yearGrid', () => {
+    it.each([
+      [
+        '2020-01-01',
+        [
+          [
+            { week: 1, days: [30, 31, 1, 2, 3, 4, 5] },
+            { week: 2, days: [6, 7, 8, 9, 10, 11, 12] },
+            { week: 3, days: [13, 14, 15, 16, 17, 18, 19] },
+            { week: 4, days: [20, 21, 22, 23, 24, 25, 26] },
+            { week: 5, days: [27, 28, 29, 30, 31, 1, 2] },
+            { week: 6, days: [3, 4, 5, 6, 7, 8, 9] },
+          ],
+          [
+            { week: 49, days: [30, 1, 2, 3, 4, 5, 6] },
+            { week: 50, days: [7, 8, 9, 10, 11, 12, 13] },
+            { week: 51, days: [14, 15, 16, 17, 18, 19, 20] },
+            { week: 52, days: [21, 22, 23, 24, 25, 26, 27] },
+            { week: 1, days: [28, 29, 30, 31, 1, 2, 3] },
+            { week: 2, days: [4, 5, 6, 7, 8, 9, 10] },
+          ],
+        ],
+      ],
+    ])('returns proper grid for %s', (date, grid) => {
+      const { yearGrid } = useCalendarGrid({ date });
+      testMonthGrid(yearGrid.value.at(0), grid[0]);
+      testMonthGrid(yearGrid.value.at(-1), grid[1]);
+    });
+  });
+
   describe('setWeekStart', () => {
     const dayNum = {
       Sunday: 0,

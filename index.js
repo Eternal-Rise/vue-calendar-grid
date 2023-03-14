@@ -41,6 +41,17 @@ const getMonthGrid = (date) => {
   return grid;
 };
 
+const getYearGrid = (date) => {
+  date = dayjs(date).startOf('year');
+  const grid = [];
+
+  for (let i = 0; i < 12; i++) {
+    grid.push(getMonthGrid(date.add(i, 'month')));
+  }
+
+  return grid;
+};
+
 export const useCalendarGrid = (defaultValues = {}) => {
   const date = ref(defaultValues.date ?? new Date());
   const weekStart = ref(1);
@@ -67,6 +78,7 @@ export const useCalendarGrid = (defaultValues = {}) => {
    */
   const weekGrid = computed(() => (weekStart.value, getWeekGrid(date.value)));
   const monthGrid = computed(() => (weekStart.value, getMonthGrid(date.value)));
+  const yearGrid = computed(() => (weekStart.value, getYearGrid(date.value)));
 
   const setWeekStart = (n) => {
     weekStart.value = n > 6 ? 6 : n < 0 ? 0 : n;
@@ -81,6 +93,7 @@ export const useCalendarGrid = (defaultValues = {}) => {
     months,
     weekGrid,
     monthGrid,
+    yearGrid,
     setWeekStart,
   };
 };
