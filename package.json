@@ -2,29 +2,35 @@
   "name": "@eternal_rise/vue-calendar-grid",
   "version": "0.0.1",
   "description": "Simple calendar grid composable for Vue",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "Vue",
     "Calendar",
     "Composable"
   ],
-  "author": "Bohdan Saliuk <407_2017@ukr.net>",
-  "license": "MIT",
-  "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
-    "husky": "^8.0.3",
-    "semantic-release": "^20.1.1"
+  "homepage": "https://github.com/Eternal-Rise/vue-calendar-grid",
+  "bugs": {
+    "url": "https://github.com/Eternal-Rise/vue-calendar-grid/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Eternal-Rise/vue-calendar-grid"
   },
-  "bugs": {
-    "url": "https://github.com/Eternal-Rise/vue-calendar-grid/issues"
+  "license": "MIT",
+  "author": "Bohdan Saliuk <407_2017@ukr.net>",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "test:dev": "vitest dev"
   },
-  "homepage": "https://github.com/Eternal-Rise/vue-calendar-grid"
+  "dependencies": {
+    "dayjs": "^1.11.7",
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3",
+    "semantic-release": "^20.1.1",
+    "vitest": "^0.29.2"
+  }
 }
