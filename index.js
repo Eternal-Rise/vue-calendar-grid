@@ -14,44 +14,6 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(updateLocale);
 
-const getWeekGrid = (date) => {
-  const startDate = dayjs(date).startOf('week');
-  const week = startDate.week();
-  const days = [];
-
-  for (let i = 0; i < 7; i++) {
-    const date = startDate.add(i, 'day');
-    days.push({
-      date: date.date(),
-      dateString: date.format('YYYY-MM-DD'),
-    });
-  }
-
-  return { week, days };
-};
-
-const getMonthGrid = (date) => {
-  date = dayjs(date).startOf('month');
-  const grid = [];
-
-  for (let i = 0; i < 6; i++) {
-    grid.push(getWeekGrid(date.add(i, 'week')));
-  }
-
-  return grid;
-};
-
-const getYearGrid = (date) => {
-  date = dayjs(date).startOf('year');
-  const grid = [];
-
-  for (let i = 0; i < 12; i++) {
-    grid.push(getMonthGrid(date.add(i, 'month')));
-  }
-
-  return grid;
-};
-
 export const useCalendarGrid = (defaultValues = {}) => {
   const date = ref(defaultValues.date ?? new Date());
   const weekStart = ref(1);
@@ -80,6 +42,44 @@ export const useCalendarGrid = (defaultValues = {}) => {
   const weekGrid = computed(() => (weekStart.value, getWeekGrid(date.value)));
   const monthGrid = computed(() => (weekStart.value, getMonthGrid(date.value)));
   const yearGrid = computed(() => (weekStart.value, getYearGrid(date.value)));
+
+  const getWeekGrid = (date) => {
+    const startDate = dayjs(date).startOf('week');
+    const week = startDate.week();
+    const days = [];
+
+    for (let i = 0; i < 7; i++) {
+      const date = startDate.add(i, 'day');
+      days.push({
+        date: date.date(),
+        dateString: date.format(dateFormat),
+      });
+    }
+
+    return { week, days };
+  };
+
+  const getMonthGrid = (date) => {
+    date = dayjs(date).startOf('month');
+    const grid = [];
+
+    for (let i = 0; i < 6; i++) {
+      grid.push(getWeekGrid(date.add(i, 'week')));
+    }
+
+    return grid;
+  };
+
+  const getYearGrid = (date) => {
+    date = dayjs(date).startOf('year');
+    const grid = [];
+
+    for (let i = 0; i < 12; i++) {
+      grid.push(getMonthGrid(date.add(i, 'month')));
+    }
+
+    return grid;
+  };
 
   const setDate = (date) => {
     date.value = dayjs(date).format(dateFormat);
