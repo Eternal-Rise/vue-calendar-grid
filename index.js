@@ -55,6 +55,7 @@ const getYearGrid = (date) => {
 export const useCalendarGrid = (defaultValues = {}) => {
   const date = ref(defaultValues.date ?? new Date());
   const weekStart = ref(1);
+  const dateFormat = defaultValues.dateFormat ?? 'YYYY-MM-DD';
 
   const weekdays = computed(() => {
     const daysNames = dayjs.weekdays();
@@ -80,6 +81,26 @@ export const useCalendarGrid = (defaultValues = {}) => {
   const monthGrid = computed(() => (weekStart.value, getMonthGrid(date.value)));
   const yearGrid = computed(() => (weekStart.value, getYearGrid(date.value)));
 
+  const setDate = (date) => {
+    date.value = dayjs(date).format(dateFormat);
+  };
+
+  const nextMonth = () => {
+    date.value = dayjs(date.value).add(1, 'month').format(dateFormat);
+  };
+
+  const prevMonth = () => {
+    date.value = dayjs(date.value).subtract(1, 'month').format(dateFormat);
+  };
+
+  const nextYear = () => {
+    date.value = dayjs(date.value).add(1, 'year').format(dateFormat);
+  };
+
+  const prevYear = () => {
+    date.value = dayjs(date.value).subtract(1, 'year').format(dateFormat);
+  };
+
   const setWeekStart = (n) => {
     weekStart.value = n > 6 ? 6 : n < 0 ? 0 : n;
     dayjs.updateLocale(dayjs.locale(), { weekStart: weekStart.value });
@@ -94,6 +115,11 @@ export const useCalendarGrid = (defaultValues = {}) => {
     weekGrid,
     monthGrid,
     yearGrid,
+    setDate,
+    nextMonth,
+    prevMonth,
+    nextYear,
+    prevYear,
     setWeekStart,
   };
 };
