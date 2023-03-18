@@ -1,6 +1,6 @@
 {
   "name": "@eternal_rise/vue-calendar-grid",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Simple calendar grid composable for Vue",
   "keywords": [
     "Vue",
