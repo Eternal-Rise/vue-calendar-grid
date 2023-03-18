@@ -15,9 +15,9 @@ dayjs.extend(weekOfYear);
 dayjs.extend(updateLocale);
 
 export const useCalendarGrid = (defaultValues = {}) => {
-  const date = ref(defaultValues.date ?? new Date());
   const weekStart = ref(1);
   const dateFormat = defaultValues.dateFormat ?? 'YYYY-MM-DD';
+  const date = ref(dayjs(defaultValues.date).format(dateFormat));
 
   const weekdays = computed(() => {
     const daysNames = dayjs.weekdays();
