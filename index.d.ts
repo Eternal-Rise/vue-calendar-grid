@@ -1,31 +1,51 @@
-import dayjs from 'dayjs/esm/index';
+import dayjs from 'dayjs/esm';
 import { MaybeComputedRef } from '@vueuse/shared';
 import { ComputedRef, Ref } from 'vue';
 
-interface DefaultValues {
+export type WeekdayNames = [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+];
+export type MonthNames = [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+];
+
+export interface DefaultValues {
   date?: MaybeComputedRef<Date | dayjs.Dayjs | string | number>;
   dateFormat?: MaybeComputedRef<string>;
 }
 
-export type WeekGrid = ComputedRef<{
+export interface WeekGrid {
   week: number;
   days: {
     date: number;
     dateString: string;
   }[];
-}>;
-
-export type MonthGrid = ComputedRef<WeekGrid[]>;
-
-export type YearGrid = ComputedRef<MonthGrid[]>;
+}
 
 export function useCalendarGrid(defaultValues?: DefaultValues): {
   date: Ref<string>;
-  weekdays: ComputedRef<dayjs.WeekdayNames>;
-  months: ComputedRef<dayjs.MonthNames>;
-  weekGrid: WeekGrid;
-  monthGrid: MonthGrid;
-  yearGrid: YearGrid;
+  weekdays: ComputedRef<WeekdayNames>;
+  months: ComputedRef<MonthNames>;
+  weekGrid: ComputedRef<WeekGrid>;
+  monthGrid: ComputedRef<WeekGrid[]>;
+  yearGrid: ComputedRef<WeekGrid[][]>;
   setDate(date: DefaultValues['date']): void;
   nextMonth(): void;
   prevMonth(): void;
